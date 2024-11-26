@@ -1,8 +1,7 @@
 # Brouillon pour un jeu de nim
 
 import numpy as np
-import pickle
-from training_NN import NN_nim_player, NN_training
+from .training_NN import NN_nim_player, NN_training
 
 class nim_game_against_nn:
 
@@ -49,7 +48,6 @@ class nim_game_against_nn:
             if playing=='NN': # Neural Network turn
                 print("Ordinateur :")
                 n_proposed = self.NN.output(len(self.sticks))
-                # n_proposed = np.where(possibilities==np.min(possibilities))[1][0] + 1
                 n_played = np.clip(n_proposed,a_min=1,a_max=len(self.sticks))
                 self.remove_sticks(n_played)
                 print(self.sticks)
@@ -76,8 +74,3 @@ class nim_game_against_nn:
             print("Perdu !")
 
         return 
-
-with open("nn_saves/nim_nn_100_trains.pkl","rb") as f:
-    NN_trained = pickle.load(f)
-
-nim_game_against_nn(NN_trained).run_game()

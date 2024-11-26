@@ -8,7 +8,7 @@ import numpyro.distributions as dist
 from numpyro.infer import NUTS, MCMC
 from numpyro.infer.initialization import init_to_value
 import progressbar
-from activation_functions import *
+from .activation_functions import *
 
 class neuron:
 
