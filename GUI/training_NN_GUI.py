@@ -1,5 +1,7 @@
 import sys
+import pickle
 from src.training_NN import NN_training, NN_nim_player
+from src.nn_utils import backpropagation_MH_step
 from texts import english, francais
 from PyQt6.QtCore import Qt, QSize
 from PyQt6.QtWidgets import (
@@ -54,13 +56,9 @@ class TrainingWindow(QMainWindow):
 
         self.n_trains_slider = QSlider(Qt.Orientation.Horizontal)
         self.n_trains_slider.setMinimum(10)
-        self.n_trains_slider.setMaximum(2000)
+        self.n_trains_slider.setMaximum(1000)
         self.n_trains_slider.valueChanged.connect(self.n_trains_select)
         layout.addWidget(self.n_trains_slider)
-
-        # self.n_trains_line = QLineEdit()
-        # self.n_trains_line.returnPressed.connect(self.n_trains_select)
-        # layout.addWidget(self.n_trains_line)
 
         self.games_per_step_label = QLabel(f"{self.text["games_per_step"]} : {self.games_per_step}")
         layout.addWidget(self.games_per_step_label)
@@ -70,9 +68,6 @@ class TrainingWindow(QMainWindow):
         self.games_per_step_slider.setMaximum(1000)
         self.games_per_step_slider.valueChanged.connect(self.games_per_step_select)
         layout.addWidget(self.games_per_step_slider)
-
-        self.progressbar = QProgressBar()
-        layout.addWidget(self.progressbar)
 
         self.run_training_button = QPushButton(self.text["run_training"])
         self.run_training_button.clicked.connect(self.run_training)
@@ -104,7 +99,6 @@ class TrainingWindow(QMainWindow):
         return 
     
     def run_training(self):
-        self.run_training_button.setEnabled(False)
         NN_training(n_sticks=self.n_sticks,n_max=self.n_max,n_trains=self.n_trains,games_per_step=self.games_per_step).train()
         return
 

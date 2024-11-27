@@ -1,2 +1,3 @@
 # Saved Neural networks
 *.pkl
+build/*

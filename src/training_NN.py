@@ -1,7 +1,6 @@
 import pickle
 import os
 import numpy as np
-import matplotlib.pyplot as plt
 from .nim_computer import nim_game_training
 from .nn_utils import double_layer_nn, backpropagation_MH
 from .activation_functions import *

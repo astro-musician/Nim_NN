@@ -63,7 +63,7 @@ class nim_game_against_nn:
             n_proposed = self.NN.output(self.n_sticks)
             n_played = np.clip(n_proposed,a_min=1,a_max=self.n_sticks)
             self.remove_sticks(n_played)
-            print(f"\n Computer played and removed {n_played} sticks.")
+            # print(f"\n Computer played and removed {n_played} sticks.")
 
             if self.n_sticks > 1:
                 self.state = "player_playing"

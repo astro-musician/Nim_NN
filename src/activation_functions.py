@@ -1,15 +1,13 @@
 import numpy as np
-import jax.numpy as jnp
-import jax.random as random
 
 def ReLU(x):
-    return 0.5*(x+jnp.abs(x))
+    return 0.5*(x+np.abs(x))
 
 def gaussian(x):
-    return jnp.exp(-x**2)
+    return np.exp(-x**2)
 
 def sigmoid(x):
-    return 1/(jnp.exp(-x)+1)
+    return 1/(np.exp(-x)+1)
 
 def msigmoid(x):
     return sigmoid(-x)
@@ -27,4 +25,4 @@ def softmax(logits):
     return probs
 
 def softplus(x):
-    return jnp.log(1+jnp.exp(x))
+    return np.log(1+np.exp(x))

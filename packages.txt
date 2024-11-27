@@ -1,0 +1,6 @@
+Python packages list for nim nn environment :
+
+- numpy
+- matplotlib
+- PyQt6
+- progressbar 

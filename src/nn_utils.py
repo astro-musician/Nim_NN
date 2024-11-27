@@ -16,8 +16,6 @@ class neuron:
 
         self.weight = weight
         self.bias = bias
-        # self.n_in = np.shape(weight)[0]
-        # self.n_out = np.shape(weight)[1]
         self.activation = activation
 
         pass
