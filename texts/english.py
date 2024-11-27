@@ -12,3 +12,12 @@ nim_game_GUI_text = {
     "computer":"Computer",
     "winner":"Winner"
 }
+
+training_NN_GUI_text = {
+    "window_title":"Training neural network",
+    "n_sticks":"Number of sticks in the nim game",
+    "n_max":"Max number of removed sticks per turn",
+    "n_trains":"Number of training steps",
+    "games_per_step":"Number of games at each step",
+    "run_training":"Run training"
+}

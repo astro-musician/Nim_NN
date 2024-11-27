@@ -12,3 +12,12 @@ nim_game_GUI_text = {
     "computer":"Ordinateur",
     "winner":"Gagnant"
 }
+
+training_NN_GUI_text = {
+    "window_title":"Entraînement du réseau de neurones",
+    "n_sticks":"Nombre de bâtons dans le jeu",
+    "n_max":"Nombre maximum de bâtons enlevés par tour",
+    "n_trains":"Etapes d'entraînement",
+    "games_per_step":"Parties jouées par étape",
+    "run_training":"Entraîner"
+}

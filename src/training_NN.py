@@ -22,7 +22,7 @@ class NN_nim_player:
 
 class NN_training:
 
-    def __init__(self,n_sticks=2,n_max=12,n_trains=10,games_per_step=1000):
+    def __init__(self,n_sticks=12,n_max=2,n_trains=10,games_per_step=1000):
 
         self.n_trains = n_trains
         self.activations = [np.sin,self.softmax_for_nim]

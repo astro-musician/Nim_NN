@@ -1,3 +1,3 @@
-from src.training_NN import NN_training, NN_nim_player
+from GUI.training_NN_GUI import TrainingWindow, show_training
 
-NN_training(n_trains=100).train()
+show_training()
