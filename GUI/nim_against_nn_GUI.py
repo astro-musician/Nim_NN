@@ -1,6 +1,7 @@
 from src.nim_against_nn import nim_game_against_nn
+from languages import english, francais
 import sys
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import Qt, QSize
 from PyQt6.QtWidgets import (
     QLCDNumber, 
     QMainWindow, 
@@ -8,50 +9,105 @@ from PyQt6.QtWidgets import (
     QWidget, 
     QApplication,
     QSpinBox,
-    QPushButton
+    QPushButton,
+    QLabel
     )
+import time
+
+text = francais.nim_game_GUI_text
 
 class GameWindow(QMainWindow):
 
     def __init__(self,game):
         super().__init__()
 
+        self.setFixedSize(QSize(500,500))
+        self.setStyleSheet("font-size : 25px")
+        self.setWindowTitle(text["window_title"])
+
         self.game = game
+        self.total_sticks = game.n_sticks
 
         self.layout = QVBoxLayout()
 
-        self.starter = QPushButton()
-        self.starter.clicked.connect(self.start)
-        self.starter.setText("START")
+        self.reset_button = QPushButton()
+        self.reset_button.clicked.connect(self.reset)
+        self.reset_button.setText(text['reset_button'])
+
+        self.sticks_number_label = QLabel(f"{text["sticks"]} : ")
 
         self.sticks_number = QLCDNumber()
-        self.sticks_number.display(self.game.n_sticks)
+        # self.sticks_number.display(self.total_sticks)
 
-        self.played_number = QSpinBox()
-        self.played_number.setMinimum(1)
-        self.played_number.setMaximum(self.game.n_max)
-        self.played_number.valueChanged.connect(self.player_turn)
+        self.current_player = QLabel()
+
+        self.played_number_box = QSpinBox()
+        self.played_number_box.setMinimum(1)
+        self.played_number_box.setMaximum(self.game.n_max)
+        self.played_number_box.valueChanged.connect(self.possible_played_number)
+        self.played_number = 1
+
+        self.validate_play_button = QPushButton()
+        self.validate_play_button.setText(text["play_button"])
+        self.validate_play_button.clicked.connect(self.player_turn)
         
-        self.layout.addWidget(self.starter)
+        self.layout.addWidget(self.reset_button)
+        self.layout.addWidget(self.sticks_number_label)
         self.layout.addWidget(self.sticks_number)
-        self.layout.addWidget(self.played_number)
+        self.layout.addWidget(self.current_player)
+        self.layout.addWidget(self.played_number_box)
+        self.layout.addWidget(self.validate_play_button)
 
         self.widget = QWidget()
         self.widget.setLayout(self.layout)
 
         self.setCentralWidget(self.widget)
 
+        self.run_turn()
+
         pass
 
-    def player_turn(self,n:int):
-        self.game.player_turn(n)
-        pass
+    def possible_played_number(self,n:int):
+        self.played_number = n
+        return 
+    
+    def run_turn(self):
 
-    def start(self):
+        self.sticks_number.display(self.game.n_sticks)
 
-        self.starter.clicked.connect(self.game.reset)
-        self.starter.setText("RESET")
-        self.game.start()
+        if self.game.state == "init":
+            self.game.state = "player_playing"
+            self.current_player.setText(f"{text["current_player"]} : {text["you"]}")
+            self.run_turn()
+
+        elif self.game.state == "computer_playing":
+            self.current_player.setText(f"{text["current_player"]} : {text["computer"]}")
+            self.validate_play_button.enabled = False
+            time.sleep(0.5)
+            self.game.computer_turn()
+            self.run_turn()
+
+        elif self.game.state == "player_playing":
+            self.current_player.setText(f"{text["current_player"]} : {text["you"]}")
+            self.validate_play_button.enabled = True
+
+        elif self.game.state == "finished":
+            self.current_player.setText(f"{text["winner"]} : {text[self.game.winner]}")
+
+        return
+
+    def player_turn(self):
+
+        self.game.player_turn(self.played_number)
+        self.run_turn()
+        
+        return
+    
+    def reset(self):
+
+        self.game.reset()
+        self.sticks_number.display(self.game.n_sticks)
+        self.run_turn()
 
         return
 
@@ -61,7 +117,6 @@ def run_game(game):
     window = GameWindow(game=game)
     window.show()
     nim_game.exec()
-    # game.run_game()
 
     pass
 

@@ -40,16 +40,19 @@ class nim_game_against_nn:
 
             self.remove_sticks(n)
 
-            if self.n_sticks > 0:
-
+            if self.n_sticks > 1:
                 self.state = "computer_playing"
-                self.run_turn()
+                # self.run_turn()
+
+            elif self.n_sticks == 1:
+                self.state = "finished"
+                self.winner = "computer"
+                # self.run_turn()
 
             else:
-
                 self.state = "finished"
                 self.winner = "player"
-                self.run_turn()
+                # self.run_turn()
         
         return
 
@@ -57,21 +60,24 @@ class nim_game_against_nn:
 
         if self.state == "computer_playing":
 
-            time.sleep(1)
-
             n_proposed = self.NN.output(self.n_sticks)
             n_played = np.clip(n_proposed,a_min=1,a_max=self.n_sticks)
             self.remove_sticks(n_played)
             print(f"\n Computer played and removed {n_played} sticks.")
 
-            if self.n_sticks > 0:
+            if self.n_sticks > 1:
                 self.state = "player_playing"
-                self.run_turn()
+                # self.run_turn()
+
+            elif self.n_sticks == 1:
+                self.state = "finished"
+                self.winner = "player"
+                # self.run_turn()
 
             else:
                 self.state = "finished"
                 self.winner = "computer"
-                self.run_turn()
+                # self.run_turn()
 
         return
 
@@ -79,13 +85,6 @@ class nim_game_against_nn:
 
         self.state = "init"
         self.n_sticks = self.NN_nim_player.n_sticks
-
-        return
-    
-    def start(self):
-
-        self.state = "player_playing"
-        self.run_turn()
 
         return
 
