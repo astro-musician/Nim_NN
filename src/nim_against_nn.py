@@ -94,12 +94,10 @@ class nim_game_against_nn:
     def run_turn(self):
 
         if self.state == "init":
-
             self.state = "computer_playing"
 
         elif self.state == "computer_playing":
-
-                    self.computer_turn()
+            self.computer_turn()
 
         elif self.state == "finished":
 
