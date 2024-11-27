@@ -1,3 +1,6 @@
 # Saved Neural networks
 *.pkl
 build/*
+build-game-test/*
+build-training-test/*
+*.txt

@@ -116,7 +116,8 @@ class GameWindow(QMainWindow):
 
         self.game.reset()
         self.sticks_number.display(self.game.n_sticks)
-        self.run_turn()
+        self.validate_play_button.setEnabled(True)
+        self.computer_play_button.setEnabled(False)
 
         return
     
