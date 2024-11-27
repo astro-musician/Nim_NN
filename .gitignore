@@ -4,3 +4,4 @@ build/*
 build-game-test/*
 build-training-test/*
 *.txt
+nn-env/*
