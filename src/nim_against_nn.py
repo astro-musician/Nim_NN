@@ -1,6 +1,7 @@
 # Brouillon pour un jeu de nim
 
 import numpy as np
+import time
 from .training_NN import NN_nim_player, NN_training
 
 class nim_game_against_nn:
@@ -8,16 +9,13 @@ class nim_game_against_nn:
     def __init__(self,NN_trained):
 
         """
-        NN : double_layer_network from nn_utils, previously trained
+        NN_trained.NN : double_layer_network from nn_utils, previously trained
         """
 
+        self.NN_nim_player = NN_trained
         self.NN = NN_trained.NN
         self.n_sticks = NN_trained.n_sticks
         self.n_max = NN_trained.n_max
-
-        self.sticks = np.arange(self.n_sticks) + 1
-        self.players = ['Player','NN']
-
         self.state = "init"
 
         pass
@@ -38,52 +36,76 @@ class nim_game_against_nn:
         
     def player_turn(self,n):
 
-        self.remove_sticks(n)
+        if self.state == "player_playing":
 
-        if self.n_sticks > 0:
-            self.state = "computer_playing"
-        else:
-            self.state = "finished"
-            self.winner = "player"
+            self.remove_sticks(n)
+
+            if self.n_sticks > 0:
+
+                self.state = "computer_playing"
+                self.run_turn()
+
+            else:
+
+                self.state = "finished"
+                self.winner = "player"
+                self.run_turn()
         
-        pass
+        return
 
     def computer_turn(self):
 
-        n_proposed = self.NN.output(self.n_sticks)
-        n_played = np.clip(n_proposed,a_min=1,a_max=len(self.sticks))
-        self.remove_sticks(n_played)
+        if self.state == "computer_playing":
 
-        if self.n_sticks > 0:
-            self.state = "player_playing"
-        else:
-            self.state = "finished"
-            self.winner = "computer"
+            time.sleep(1)
 
-    def run_game(self):
+            n_proposed = self.NN.output(self.n_sticks)
+            n_played = np.clip(n_proposed,a_min=1,a_max=self.n_sticks)
+            self.remove_sticks(n_played)
+
+            if self.n_sticks > 0:
+
+                self.state = "player_playing"
+                self.run_turn()
+
+            else:
+                self.state = "finished"
+                self.winner = "computer"
+                self.run_turn()
+
+            print(f"\n Computer played and removed {n_played} sticks.")
+
+        return
+
+    def reset(self):
+
+        self.state = "init"
+        self.n_sticks = self.NN_nim_player.n_sticks
+
+        return
+    
+    def start(self):
 
         self.state = "computer_playing"
+        self.run_turn()
 
-        while self.state != "finished":
+        return
 
-            if self.state == "computer_playing":
+    def run_turn(self):
 
-                self.computer_turn()
+        if self.state == "init":
 
-            elif self.state == "player_playing":
+            self.state = "computer_playing"
 
-                print(f"\n {self.n_sticks} sticks remaining. \n")
-                n = input("Played number : ")
+        elif self.state == "computer_playing":
 
-                while not self.n_is_suited(n):
-                    print(f"Please choose an int between 1 and {self.n_max}.\n")
-                    n = input("Played number : ")
+                    self.computer_turn()
 
-                self.player_turn(int(n))
+        elif self.state == "finished":
 
-        print(f"Winner : {self.winner}")
+            print(f"Winner : {self.winner}")
 
-        pass
+        return
 
     # def run_game_old(self):
 
