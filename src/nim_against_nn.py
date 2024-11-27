@@ -16,7 +16,7 @@ class nim_game_against_nn:
         self.NN = NN_trained.NN
         self.n_sticks = NN_trained.n_sticks
         self.n_max = NN_trained.n_max
-        self.state = "init"
+        self.state = "player_playing"
 
         pass
 
@@ -83,7 +83,7 @@ class nim_game_against_nn:
 
     def reset(self):
 
-        self.state = "init"
+        self.state = "player_playing"
         self.n_sticks = self.NN_nim_player.n_sticks
 
         return
@@ -91,7 +91,7 @@ class nim_game_against_nn:
     def run_turn(self):
 
         if self.state == "init":
-            self.state = "computer_playing"
+            self.state = "player_playing"
 
         elif self.state == "computer_playing":
             self.computer_turn()
