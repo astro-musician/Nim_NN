@@ -189,17 +189,19 @@ def train(n_trains:int, n_sticks:int, show_progressbar=True) -> list[player,floa
             )
 
     fig, axes = plt.subplots(1,training_player.n_cups)
+
     for i in range(training_player.n_cups):
         ax = axes[i]
         ax.plot([1,1],[0,training_player.cups[i].blue/(training_player.cups[i].blue + training_player.cups[i].yellow)],linewidth=2,color='blue')
         ax.plot([2,2],[0,training_player.cups[i].yellow/(training_player.cups[i].blue + training_player.cups[i].yellow)],linewidth=2,color='orange')
-        ax.set_xlim([0.9,2.1])
+        ax.set_xlim([0,3])
+        ax.xaxis.set_ticks([1,2])
         ax.set_ylim([0,1])
         ax.yaxis.set_ticklabels([])
         ax.yaxis.set_ticks([])
         ax.set_title(i+1)
 
-    plt.show()
+    plt.savefig(f"nn_saves/sticks{n_sticks}_trains{n_trains}_state.png")
 
     with open(f"nn_saves/sticks{n_sticks}_trains{n_trains}.pkl","wb") as f:
         pickle.dump(training_player,f)

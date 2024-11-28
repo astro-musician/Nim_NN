@@ -3,9 +3,11 @@ from src.nim import nim_game
 from src.player import player
 import pickle
 
-with open("nn_saves/sticks8_trains100.pkl","rb") as f:
-    computer_player = pickle.load(f)
+if __name__=="__main":
 
-game = nim_game(computer_player=computer_player)
+    with open("nn_saves/sticks8_trains100.pkl","rb") as f:
+        computer_player = pickle.load(f)
 
-run_game(game=game)
+    game = nim_game(computer_player=computer_player)
+
+    run_game(game=game)
