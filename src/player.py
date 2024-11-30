@@ -3,13 +3,14 @@ import matplotlib.pyplot as plt
 import progressbar
 import pickle
 import time
+from copy import deepcopy
 
 class cup:
 
-    def __init__(self):
+    def __init__(self,blue=2,yellow=2):
 
-        self.blue = 2
-        self.yellow = 2
+        self.blue = blue
+        self.yellow = blue
 
         return
 
@@ -45,7 +46,7 @@ class game:
 
         self.n_sticks = n_sticks
         self.players = ["computer","trainer"]
-        self.computer = computer_player
+        self.computer = deepcopy(computer_player)
         self.played_numbers = np.zeros(self.n_sticks)
 
         self.check = (self.computer.n_cups == self.n_sticks)
@@ -146,7 +147,7 @@ class game:
         return [new_computer,winner]
     
     
-def train(n_trains:int, n_sticks:int, show_progressbar=True) -> list[player,float]:
+def train(n_trains:int, n_sticks:int, show_progressbar=True, saveplayer=True) -> list[player,float]:
 
     training_player = player(n_cups=n_sticks)
     wins = 0
@@ -190,27 +191,30 @@ def train(n_trains:int, n_sticks:int, show_progressbar=True) -> list[player,floa
 
     fig, axes = plt.subplots(1,training_player.n_cups)
 
-    for i in range(training_player.n_cups):
+    for i in range(training_player.n_cups-1):
         ax = axes[i]
-        ax.plot([1,1],[0,training_player.cups[i].blue/(training_player.cups[i].blue + training_player.cups[i].yellow)],linewidth=2,color='blue')
-        ax.plot([2,2],[0,training_player.cups[i].yellow/(training_player.cups[i].blue + training_player.cups[i].yellow)],linewidth=2,color='orange')
+        ax.plot([1,1],[0,training_player.cups[i+1].blue/(training_player.cups[i].blue + training_player.cups[i].yellow)],linewidth=2,color='blue')
+        ax.plot([2,2],[0,training_player.cups[i+1].yellow/(training_player.cups[i].blue + training_player.cups[i].yellow)],linewidth=2,color='orange')
         ax.set_xlim([0,3])
         ax.xaxis.set_ticks([1,2])
         ax.set_ylim([0,1])
         ax.yaxis.set_ticklabels([])
         ax.yaxis.set_ticks([])
-        ax.set_title(i+1)
+        ax.set_title(i+2)
 
     plt.savefig(f"nn_saves/sticks{n_sticks}_trains{n_trains}_state.png")
+    plt.close()
 
-    with open(f"nn_saves/sticks{n_sticks}_trains{n_trains}.pkl","wb") as f:
-        pickle.dump(training_player,f)
+    if saveplayer:
+
+        with open(f"nn_saves/sticks{n_sticks}_trains{n_trains}.pkl","wb") as f:
+            pickle.dump(training_player,f)
 
     return [training_player,winrate]
 
 if __name__=="__main__":
 
-    train(10,n_sticks=9)
+    train(10,n_sticks=8)
 
 
             

@@ -17,10 +17,11 @@ from PyQt6.QtWidgets import (
 
 class TrainingWindow(QMainWindow):
 
-    def __init__(self):
+    def __init__(self,language):
         super().__init__()
 
-        self.text = francais.training_NN_GUI_text
+        self.language = language
+        self.text = self.language.training_NN_GUI_text
 
         self.setFixedSize(QSize(500,500))
         self.setStyleSheet("font-size : 25px")
@@ -70,10 +71,10 @@ class TrainingWindow(QMainWindow):
         train(self.n_trains,n_sticks = self.n_sticks)
         return
 
-def run_training():
+def run_training(language):
 
     training_app = QApplication(sys.argv)
-    window = TrainingWindow()
+    window = TrainingWindow(language=language)
     window.show()
     training_app.exec()
 

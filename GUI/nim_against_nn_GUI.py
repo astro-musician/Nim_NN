@@ -15,10 +15,11 @@ from PyQt6.QtWidgets import (
 
 class GameWindow(QMainWindow):
 
-    def __init__(self,game):
+    def __init__(self,game,language):
         super().__init__()
 
-        self.text = francais.nim_game_GUI_text
+        self.language = language
+        self.text = self.language.nim_game_GUI_text
 
         self.setFixedSize(QSize(500,500))
         self.setStyleSheet("font-size : 25px")
@@ -168,13 +169,13 @@ class GameWindow(QMainWindow):
 
         return
 
-def run_game(game):
+def run_game(game,language):
 
     nim_game = QApplication(sys.argv)
-    window = GameWindow(game=game)
+    window = GameWindow(game=game,language=language)
     window.show()
     nim_game.exec()
 
-    pass
+    return
 
 
