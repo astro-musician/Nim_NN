@@ -10,7 +10,7 @@ class cup:
     def __init__(self,blue=2,yellow=2):
 
         self.blue = blue
-        self.yellow = blue
+        self.yellow = yellow
 
         return
 
@@ -31,8 +31,9 @@ class cup:
     
 class player:
 
-    def __init__(self,n_cups=8):
+    def __init__(self,n_cups=8,position="first"):
 
+        self.position = position
         self.n_cups = n_cups
         self.cups = []
         for n in range(self.n_cups):
@@ -42,12 +43,24 @@ class player:
 
 class game:
 
-    def __init__(self, computer_player : player, n_sticks=8 ) :
+    def __init__(self, computer_player : player, n_sticks=8, clever_training=False ) :
 
         self.n_sticks = n_sticks
-        self.players = ["computer","trainer"]
         self.computer = deepcopy(computer_player)
+        self.computer_position = computer_player.position
         self.played_numbers = np.zeros(self.n_sticks)
+        self.clever_training = clever_training
+
+        if self.computer_position == "first":
+            # self.players = ["computer","trainer"]
+            self.state = "computer_playing"
+        
+        elif self.computer_position == "second":
+            # self.players = ["trainer","computer"]
+            self.state = "trainer_playing"
+
+        elif self.computer_position == "random":
+            self.state = ["computer_playing","trainer_playing"][np.intc(np.random.choice(np.array([0,1])))]
 
         self.check = (self.computer.n_cups == self.n_sticks)
 
@@ -74,49 +87,94 @@ class game:
     def trainer_turn(self):
         played = np.random.choice(np.array([1,2]))
         # print(f"\n Trainer : {played} \n")
+        self.remove_sticks(played)
+
+        if self.n_sticks > 1:
+            self.state = "computer_playing"
+
+        elif self.n_sticks == 1:
+            self.state = "finished"
+            self.winner = "computer"
+
+        else:
+            self.state = "finished"
+            self.winner = "trainer"
+
         return played
     
     def clever_trainer_turn(self):
 
         if self.n_sticks%3 !=0 :
-            played = self.n_sticks%3
+            # played = self.n_sticks%3
+            best_play = self.n_sticks%3
+            possible_plays = np.concatenate((np.array([best_play]),np.arange(1,3)[np.arange(1,3)!=best_play]))
+            played = np.random.choice(possible_plays,p=np.array([0.9,0.1])) # The trainer must be able to make a mistake, otherwise winrate == 0
         else:
             played = np.random.choice(np.array([1,2]))
+
+        self.remove_sticks(played)
+
+        if self.n_sticks > 1:
+            self.state = "computer_playing"
+
+        elif self.n_sticks == 1:
+            self.state = "finished"
+            self.winner = "computer"
+
+        else:
+            self.state = "finished"
+            self.winner = "trainer"
 
         return played
     
     def computer_turn(self):
         played = self.computer.cups[self.n_sticks-1].play()
         # print(f"\n Computer : {played}")
+        self.remove_sticks(played)
+
+        if self.n_sticks > 1:
+            self.state = "trainer_playing"
+
+        elif self.n_sticks == 1:
+            self.state = "finished"
+            self.winner = "trainer"
+
+        else:
+            self.state = "finished"
+            self.winner = "computer"
+
         return played
 
     def play_game(self) -> list[player,str]:
 
-        turn = 0
+        # turn = 0
 
-        while self.n_sticks > 0:
+        while self.state != "finished":
 
-            current_player = self.players[turn%2]
+            # current_player = self.players[turn%2]
 
-            if current_player == "trainer":
-                n_played = self.clever_trainer_turn()
+            if self.state == "trainer_playing":
+                if self.clever_training:
+                    n_played = self.clever_trainer_turn()
+                else:
+                    n_played = self.trainer_turn()
 
-            elif current_player == "computer":
+            elif self.state == "computer_playing":
                 n_played = self.computer_turn()
-                self.played_numbers[self.n_sticks-1] = n_played
+                self.played_numbers[self.n_sticks-1+n_played] = n_played # The update needs to be made at the state before the computer played
 
             if not self.suited_play(n_played):
                 raise ValueError("CHEATER")
 
-            self.remove_sticks(n_played)
+            # self.remove_sticks(n_played)
 
-            turn += 1
+            # turn += 1
 
-        winner = self.players[(turn-1)%2]
+        # winner = self.players[(turn-1)%2]
         new_computer = self.computer
         self.played_numbers = np.intc(self.played_numbers)
 
-        if winner == "computer":
+        if self.winner == "computer":
 
             for i in range(len(self.played_numbers)):
 
@@ -144,12 +202,12 @@ class game:
                 if new_computer.cups[i].blue + new_computer.cups[i].yellow == 0:
                     new_computer.cups[i].reset()
 
-        return [new_computer,winner]
+        return [new_computer,self.winner]
     
     
-def train(n_trains:int, n_sticks:int, show_progressbar=True, saveplayer=True) -> list[player,float]:
+def train(n_trains:int, n_sticks:int, position = "first", clever_training=False, show_progressbar=True, saveplayer=True) -> list[player,float]:
 
-    training_player = player(n_cups=n_sticks)
+    training_player = player(n_cups=n_sticks,position=position)
     wins = 0
 
     widgets = [
@@ -166,7 +224,7 @@ def train(n_trains:int, n_sticks:int, show_progressbar=True, saveplayer=True) ->
 
     for n in range(n_trains):
 
-        new_game = game(computer_player=training_player,n_sticks=n_sticks)
+        new_game = game(computer_player=training_player,n_sticks=n_sticks,clever_training=clever_training)
         training_player, winner = new_game.play_game()
 
         if winner == "computer":
@@ -207,7 +265,7 @@ def train(n_trains:int, n_sticks:int, show_progressbar=True, saveplayer=True) ->
 
     if saveplayer:
 
-        with open(f"nn_saves/sticks{n_sticks}_trains{n_trains}.pkl","wb") as f:
+        with open(f"nn_saves/sticks{n_sticks}_trains{n_trains}_position_{position}_clever_training_{clever_training}.pkl","wb") as f:
             pickle.dump(training_player,f)
 
     return [training_player,winrate]

@@ -81,11 +81,10 @@ class GameWindow(QMainWindow):
         print(self.game.state)
 
         if self.game.state == "player_playing":
-            self.computer_play_button.setEnabled(False)
+            self.switch_computer_to_player()
 
         elif self.game.state == "computer_playing":
-            self.validate_play_button.setEnabled(False)
-            self.played_number_box.setEnabled(False)
+            self.switch_player_to_computer()
 
         return
 

@@ -16,8 +16,11 @@ nim_game_GUI_text = {
 training_NN_GUI_text = {
     "window_title":"Training neural network",
     "n_sticks":"Number of sticks in the nim game",
-    "n_max":"Max number of removed sticks per turn",
     "n_trains":"Number of training steps",
-    "games_per_step":"Number of games at each step",
+    "computer_position":"Computer Position",
+    "first":"First",
+    "second":"Second",
+    "random":"Random",
+    "clever_training":"Clever Training",
     "run_training":"Run training"
 }

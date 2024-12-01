@@ -6,7 +6,7 @@ import pickle
 
 # if __name__=="__main":
 
-with open("nn_saves/sticks8_trains100.pkl","rb") as f:
+with open("nn_saves/sticks8_trains100_position_random_clever_training_False.pkl","rb") as f:
     computer_player = pickle.load(f)
 
 game = nim_game(computer_player=computer_player)

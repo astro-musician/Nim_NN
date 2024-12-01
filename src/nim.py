@@ -9,11 +9,21 @@ class nim_game:
 
         self.computer = computer_player
         self.n_sticks = self.computer.n_cups
-        self.players = ["computer","player"]
-        self.state = "computer_playing"
+        # self.state = "computer_playing"
         self.played_numbers = np.zeros(self.n_sticks)
 
         self.check = (self.computer.n_cups == self.n_sticks)
+
+        if self.computer.position == "first":
+            # self.players = ["computer","trainer"]
+            self.state = "computer_playing"
+        
+        elif self.computer.position == "second":
+            # self.players = ["trainer","computer"]
+            self.state = "player_playing"
+
+        elif self.computer.position == "random":
+            self.state = ["computer_playing","player_playing"][np.intc(np.random.choice(np.array([0,1])))]
 
         if self.check:
             pass
