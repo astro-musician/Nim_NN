@@ -100,5 +100,16 @@ class nim_game:
     def reset(self):
 
         self.n_sticks = self.computer.n_cups
-        self.state = "computer_playing"
+
+        if self.computer.position == "first":
+            # self.players = ["computer","trainer"]
+            self.state = "computer_playing"
+        
+        elif self.computer.position == "second":
+            # self.players = ["trainer","computer"]
+            self.state = "player_playing"
+
+        elif self.computer.position == "random":
+            self.state = ["computer_playing","player_playing"][np.intc(np.random.choice(np.array([0,1])))]
+            
         return

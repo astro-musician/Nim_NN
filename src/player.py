@@ -247,7 +247,7 @@ def train(n_trains:int, n_sticks:int, position = "first", clever_training=False,
                 f"Gobelet {n+1} : \n {training_player.cups[n].blue} \t {training_player.cups[n].yellow} \n"
             )
 
-    fig, axes = plt.subplots(1,training_player.n_cups)
+    fig, axes = plt.subplots(1,training_player.n_cups-1)
 
     for i in range(training_player.n_cups-1):
         ax = axes[i]
@@ -262,6 +262,7 @@ def train(n_trains:int, n_sticks:int, position = "first", clever_training=False,
 
     plt.savefig(f"nn_saves/sticks{n_sticks}_trains{n_trains}_state.png")
     plt.close()
+    print("Saved NN histogram")
 
     if saveplayer:
 

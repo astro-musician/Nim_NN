@@ -16,8 +16,11 @@ nim_game_GUI_text = {
 training_NN_GUI_text = {
     "window_title":"Entraînement du réseau de neurones",
     "n_sticks":"Nombre de bâtons dans le jeu",
-    "n_max":"Nombre maximum de bâtons enlevés par tour",
     "n_trains":"Nombre d'entraînements",
-    "games_per_step":"Parties jouées par étape",
+    "computer_position":"Position de l'ordinateur",
+    "first":"Premier",
+    "second":"Second",
+    "random":"Aléatoire",
+    "clever_training":"Entraîneur intelligent",
     "run_training":"Entraîner"
 }

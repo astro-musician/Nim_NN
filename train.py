@@ -4,4 +4,4 @@ from texts import english, francais
 
 if __name__=='__main__':
 
-    run_training(language=english)
+    run_training(language=francais)

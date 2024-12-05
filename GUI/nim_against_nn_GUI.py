@@ -101,6 +101,7 @@ class GameWindow(QMainWindow):
         self.validate_play_button.setEnabled(False)
         self.played_number_box.setEnabled(False)
         self.computer_play_button.setEnabled(True)
+        self.current_player.setText(f"{self.text["current_player"]} : {self.text["computer"]}")
 
         return
     
@@ -109,6 +110,7 @@ class GameWindow(QMainWindow):
         self.validate_play_button.setEnabled(True)
         self.played_number_box.setEnabled(True)
         self.computer_play_button.setEnabled(False)
+        self.current_player.setText(f"{self.text["current_player"]} : {self.text["you"]}")
 
         return
     
@@ -163,7 +165,7 @@ class GameWindow(QMainWindow):
 
         self.game.reset()
         self.sticks_number.display(self.game.n_sticks)
-        self.current_player.setText(f"{self.text["current_player"]} : {self.text["you"]}")
+        # self.current_player.setText(f"{self.text["current_player"]} : {self.text["you"]}")
         self.update_buttons()
 
         return

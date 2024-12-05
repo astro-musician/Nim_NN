@@ -11,4 +11,4 @@ with open("nn_saves/sticks8_trains100_position_random_clever_training_False.pkl"
 
 game = nim_game(computer_player=computer_player)
 
-run_game(game=game,language=english)
+run_game(game=game,language=francais)
