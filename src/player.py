@@ -247,22 +247,33 @@ def train(n_trains:int, n_sticks:int, position = "first", clever_training=False,
                 f"Gobelet {n+1} : \n {training_player.cups[n].blue} \t {training_player.cups[n].yellow} \n"
             )
 
-    fig, axes = plt.subplots(1,training_player.n_cups-1)
+    fig, axes = plt.subplots(1,training_player.n_cups-1,figsize=(n_sticks,6))
+    plt.subplots_adjust(wspace=1)
+    fig.supylabel("Proportion de jetons",fontsize=15)
 
     for i in range(training_player.n_cups-1):
         ax = axes[i]
-        ax.plot([1,1],[0,training_player.cups[i+1].blue/(training_player.cups[i].blue + training_player.cups[i].yellow)],linewidth=2,color='blue')
-        ax.plot([2,2],[0,training_player.cups[i+1].yellow/(training_player.cups[i].blue + training_player.cups[i].yellow)],linewidth=2,color='orange')
-        ax.set_xlim([0,3])
+        n_jetons = training_player.cups[i+1].blue + training_player.cups[i+1].yellow
+        blue_weights = training_player.cups[i+1].blue/n_jetons
+        yellow_weights = training_player.cups[i+1].yellow/n_jetons
+        ax.hist([0.5],[0.5,1.5],weights=[blue_weights],color='blue')
+        ax.hist([1.5],[1.5,2.5],weights=[yellow_weights],color='orange')
+        # ax.plot([1,1],[0,training_player.cups[i+1].blue/(training_player.cups[i+1].blue + training_player.cups[i+1].yellow)],linewidth=10,color='blue')
+        # ax.plot([2,2],[0,training_player.cups[i+1].yellow/(training_player.cups[i+1].blue + training_player.cups[i+1].yellow)],linewidth=10,color='orange')
+        ax.axis('off')
+        ax.set_xlim([0.5,2.5])
         ax.xaxis.set_ticks([1,2])
+        ax.tick_params(labelsize=15)
         ax.set_ylim([0,1])
         ax.yaxis.set_ticklabels([])
         ax.yaxis.set_ticks([])
-        ax.set_title(i+2)
+        ax.set_title(i+2,fontsize=20)
+        text_jeton = [" jeton"," jetons"][int(n_jetons!=1)]
+        ax.text(x=0.5,y=-0.1,s=str(n_jetons)+text_jeton,fontsize=12)
 
     plt.savefig(f"nn_saves/sticks{n_sticks}_trains{n_trains}_state.png")
     plt.close()
-    print("Saved NN histogram")
+    # print("Saved NN histogram")
 
     if saveplayer:
 

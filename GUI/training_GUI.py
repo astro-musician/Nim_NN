@@ -40,7 +40,7 @@ class TrainingWindow(QMainWindow):
 
         self.n_sticks_slider = QSlider(Qt.Orientation.Horizontal)
         self.n_sticks_slider.setMinimum(4)
-        self.n_sticks_slider.setMaximum(12)
+        self.n_sticks_slider.setMaximum(20)
         self.n_sticks_slider.valueChanged.connect(self.n_sticks_select)
         layout.addWidget(self.n_sticks_slider)
 
