@@ -1,5 +1,6 @@
 
 nim_game_GUI_text = {
+    "placeholder":"Vide",
     "window_title":"Jeu de Nim contre un réseau de neurones",
     "reset_button":"Recommencer",
     "sticks":"Bâtons restants",
@@ -14,6 +15,7 @@ nim_game_GUI_text = {
 }
 
 training_NN_GUI_text = {
+    "placeholder":"Vide",
     "window_title":"Entraînement du réseau de neurones",
     "n_sticks":"Nombre de bâtons dans le jeu",
     "n_trains":"Nombre d'entraînements",
@@ -22,5 +24,8 @@ training_NN_GUI_text = {
     "second":"Second",
     "random":"Aléatoire",
     "clever_training":"Entraîneur intelligent",
-    "run_training":"Entraîner"
+    "run_training":"Entraîner",
+    "train_again":"Entraîner à nouveau",
+    "showstats":"Afficher les statistiques",
+    "run_game":"Jouer contre l'ordinateur"
 }

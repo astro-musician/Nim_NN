@@ -271,7 +271,7 @@ def train(n_trains:int, n_sticks:int, position = "first", clever_training=False,
         text_jeton = [" jeton"," jetons"][int(n_jetons!=1)]
         ax.text(x=0.5,y=-0.1,s=str(n_jetons)+text_jeton,fontsize=12)
 
-    plt.savefig(f"nn_saves/sticks{n_sticks}_trains{n_trains}_state.png")
+    plt.savefig(f"nn_saves/sticks{n_sticks}_trains{n_trains}_position_{position}_clever_training_{clever_training}.png")
     plt.close()
     # print("Saved NN histogram")
 

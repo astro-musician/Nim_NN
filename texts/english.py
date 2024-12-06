@@ -1,5 +1,6 @@
 
 nim_game_GUI_text = {
+    "placeholder":"blank",
     "window_title":"Nim game against a neural network",
     "reset_button":"Reset",
     "sticks":"Remaining sticks",
@@ -14,6 +15,7 @@ nim_game_GUI_text = {
 }
 
 training_NN_GUI_text = {
+    "placeholder":"blank",
     "window_title":"Training neural network",
     "n_sticks":"Number of sticks in the nim game",
     "n_trains":"Number of training steps",
@@ -22,5 +24,8 @@ training_NN_GUI_text = {
     "second":"Second",
     "random":"Random",
     "clever_training":"Clever Training",
-    "run_training":"Run training"
+    "run_training":"Run training",
+    "train_again":"Train again",
+    "showstats":"Show stats",
+    "run_game":"Play against computer"
 }

@@ -78,7 +78,7 @@ class GameWindow(QMainWindow):
 
         # self.game.run_turn()
 
-        print(self.game.state)
+        # print(self.game.state)
 
         if self.game.state == "player_playing":
             self.switch_computer_to_player()
