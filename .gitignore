@@ -3,3 +3,5 @@ statistiques/*
 nn_saves/*
 hists_formation/*
 game.py
+setup.py
+build/
