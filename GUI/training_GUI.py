@@ -144,9 +144,7 @@ class TrainingWindow(QMainWindow):
 
     def showstats(self):
 
-        if self.statswindow == None:
-            self.statswindow = StatsWindow(imagefile=self.nn_statsfile())
-
+        self.statswindow = StatsWindow(imagefile=self.nn_statsfile())
         self.statswindow.show()
 
         pass

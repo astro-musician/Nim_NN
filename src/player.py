@@ -252,7 +252,7 @@ def train(n_trains:int, n_sticks:int, position = "first", clever_training=False,
     fig.supylabel("Proportion de jetons",fontsize=15)
 
     for i in range(training_player.n_cups-1):
-        ax = axes[i]
+        ax = axes[training_player.n_cups-2-i]
         n_jetons = training_player.cups[i+1].blue + training_player.cups[i+1].yellow
         blue_weights = training_player.cups[i+1].blue/n_jetons
         yellow_weights = training_player.cups[i+1].yellow/n_jetons
