@@ -1,6 +1,7 @@
 statistiques_ordinateur_nim.png
 statistiques/*
 nn_saves/*
+nn_saves_old/*
 hists_formation/*
 game.py
 setup.py

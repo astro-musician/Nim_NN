@@ -258,6 +258,8 @@ def train(n_trains:int, n_sticks:int, position = "first", clever_training=False,
         yellow_weights = training_player.cups[i+1].yellow/n_jetons
         ax.hist([0.5],[0.5,1.5],weights=[blue_weights],color='blue')
         ax.hist([1.5],[1.5,2.5],weights=[yellow_weights],color='orange')
+        ax.plot([0.5,1.5],[0,0],color='blue',linewidth=2)
+        ax.plot([1.5,2.5],[0,0],color='orange',linewidth=2)
         # ax.plot([1,1],[0,training_player.cups[i+1].blue/(training_player.cups[i+1].blue + training_player.cups[i+1].yellow)],linewidth=10,color='blue')
         # ax.plot([2,2],[0,training_player.cups[i+1].yellow/(training_player.cups[i+1].blue + training_player.cups[i+1].yellow)],linewidth=10,color='orange')
         ax.axis('off')
