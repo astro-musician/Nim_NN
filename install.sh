@@ -6,7 +6,12 @@ git clone git@github.com:astro-musician/Nim_NN.git
 
 cd Nim_NN
 
-bash makepyenv.sh
+python3 -m venv .NimNN-env
+source .NimNN-env/bin/activate
+pip install numpy
+pip install matplotlib
+pip install progressbar
+pip install PyQt6
 
 echo "------------------------------"
 echo "To run the program, type either :" 
