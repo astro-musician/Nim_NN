@@ -5,6 +5,7 @@ echo "Installing Nim-NN..."
 git clone git@github.com:astro-musician/Nim_NN.git
 
 cd Nim_NN
+mkdir nn_saves
 
 python3 -m venv .NimNN-env
 source .NimNN-env/bin/activate
